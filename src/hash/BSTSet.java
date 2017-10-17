@@ -13,6 +13,8 @@ public class BSTSet<T> implements Set<T> {
                 this.element = element;
                 return this;
             }
+            else if (this.element.equals(element))
+                return null;
             else if (element.hashCode() < this.element.hashCode()) {
                 if (left == null)
                     left = new BSTree();
@@ -69,26 +71,55 @@ public class BSTSet<T> implements Set<T> {
 
     @Override
     public void add(T element) {
-
+        if (element == null)
+            return;
+        if (tree == null);
+            tree = new BSTree();
+        if (tree.add(element) != null)
+            number++;
     }
 
     @Override
     public void remove(T element) {
-
+        if (tree == null || tree.element == null)
+            return;
+        BSTree root = tree.find(element, true);
+        if (root != null) {
+            tree.add(root.left);
+            tree.add(root.right);
+            number--;
+        }
     }
 
     @Override
     public boolean contains(T element) {
-        return false;
+        if (tree == null || tree.element == null)
+            return false;
+        return (tree.find(element,false) == null) ? false : true;
     }
 
     @Override
     public int size() {
-        return 0;
+        return number;
+    }
+
+    @Override
+    public String toString() {
+        return (tree == null) ? "" : tree.toString();
     }
 
     @Override
     public Set<T> newInstance() {
-        return null;
+        return new BSTSet<>();
+    }
+
+    public static void main(String[] args) {
+        Set<String> set = new HashSet<>();
+        set.add("apple");
+        System.out.println(set + " ");
+        System.out.println(set.size());
+        set.add("orange");
+        System.out.println(set);
+        System.out.println(set.size());
     }
 }
